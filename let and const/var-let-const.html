@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>let and const</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  
+</body>
+
+<script>
+  // 1. works
+  var width = 100;
+  var width = 200;
+
+  // 2. not works
+  function setWidth() {
+    var width = 100;
+    console.log(width);
+  }
+  setWidth();
+  // it is scoped
+  console.log(width)
+
+  // 3. 块级作用域问题
+  var age = 100;
+  if (age > 12) {
+    var dogYears = age * 7; // if we use var, we can use it outside, because it is only function scoped, there is no function 
+    let dogYears = age * 7; // we cannot use it outside the if block
+    const dogYears = age * 7; // we also cannot use it outside the if block
+    console.log(dogYears)
+  }
+
+  // 4. 不能重复定义
+  let points = 50;
+  let points = 60; // not works 
+
+  // 5. block
+  let winner = false;
+  if (points > 40) {
+    let winner = true;
+  }
+  console.log(winner) // false because it is two seperate block
+
+  // 6. const 
+  const key = 'abc123'
+  // key cannot be updated, but it is different for object
+  const person = {
+    name: 'wes',
+    age: 60,
+  }
+  // the entire object cannot be changed, but the attributes in the object can be change
+  person.name = 'bos';
+
+  // 7. IIFE (立即执行函数) 的写法
+  (function() {
+    // 外部通过 window.name 无法访问
+    var name = 'wes'
+  }())
+  // es6 等价写法
+  {
+    const name = 'wes';
+  }
+
+  // 8. 变量提升
+  console.log(name); // undefined, 只是提升了声明，并未赋值
+  var name = 'wes';
+  
+  console.log(age); // error
+  let age = 20; 
+
+  // 9. for 循环中的 闭包
+  for (var i = 0; i < 10; i++) {
+    setTimeout(function() {
+      console.log(i);
+    }, 1000)
+  } // 10个10
+  // 为了解决这个问题
+  for (var i = 0; i < 10; i++) {
+    (function(a) {
+      setTimeout(function () {
+        console.log(a);
+      }, 1000)
+    }(i))
+  } 
+  // 或者
+  for (let i = 0; i < 10; i++) {
+    setTimeout(function() {
+      console.log(i);
+    }, 1000);
+  }
+
+</script>
+</html>
