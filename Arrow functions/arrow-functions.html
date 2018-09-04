@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Page Title</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <style>
+    .wrap {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      font-weight: 100;
+      color: white;
+    }
+
+    .box {
+      background: black url("https: //unsplash.it/1500/1500?image=560&blur=0.5") center fixed no-repeat;
+      width:50px;
+      height: 50px;
+      padding: 50px;
+      transition: width 0.2s, height 0.6s;
+      position: relative;
+    }
+
+    .box.opening {
+      width: 500px;
+      height: 500px;
+    }
+
+    .box h2 {
+      position: absolute;
+      width: 100%;
+      font-size: 100px;
+      transform: translateX(-200%);
+      transition: all 0.5s;
+      top: 0;
+    }
+
+    .box p {
+      position: absolute;
+      width: 100%;
+      transform: translateX(200%);
+      transition: all 0.5s;
+      bottom: 0;
+    }
+
+    .box.open > * {
+      transform: translateX(0%);
+    }
+  </style>
+
+  <div class="wrap">
+    <div class="box">
+      <h2>Wes Bos</h2>
+      <p class="social">@wesbos</p>
+    </div>
+  </div>
+
+  <script>
+    // 1. 形式 put things in one line
+    const names = ['wes', 'kait', 'lux'];
+    const fullName = names.map((name) => {
+      return `${name} bos`;
+    });
+    const fullName1 = names.map(name => `${name} bos`);
+
+    // 2. 都是匿名函数
+    const sayMyName = (name) => { console.log(`Hello ${name}`) }
+    sayMyName('wes');
+
+    // 3. 大括号被解释为代码块，如果要返回一个对象，必须在大括号外面加上一个括号
+    const race = '100m Dash';
+    const winners = ['Hunter Gath', 'Singa Song', 'Imda Bos'];
+    
+    const win = winners.map((winner, i) => ({name: winner, race, place: i }));
+    console.table(win);
+
+    const ages = [20, 30, 40, 50, 60, 70];
+    const old = ages.filter(age => age >= 60);
+    console.log(old);
+
+    // 4. example of this
+    const box = document.querySelector('.box');
+    // 这里不使用箭头函数是因为 this 会是 window，继承父元素而来
+    box.addEventListener('click', function() {
+      let first = 'opening';
+      let second = 'open';
+      // 这里的交换是为了先将文字缩回去，再关闭方框
+      if (this.classList.contains(first)) {
+        [first, second] = [second, first];
+      }
+      this.classList.toggle(first);
+      // 这里使用 箭头函数是为了让this继承父作用域的this 
+      setTimeout(() => {
+        this.classList.toggle(second);
+      }, 250); 
+    })
+  </script>
+</body>
+</html>
